@@ -1,7 +1,9 @@
 from random import randint
 from bs4 import BeautifulSoup
+from threading import Thread
 import cloudscraper
 import requests
+import os
 
 
 def create_name_page():
@@ -28,12 +30,23 @@ def parse_html_page(html):
 
 def save_image(url, name_file):
     response = requests.get(url).iter_content()
-    with open(f"{name_file}.jpg", "wb") as file:
-        for i in response:
-            file.write(i)
+    try:
+        with open(f"{os.getcwd()}/images/{name_file}.jpg", "wb") as file:
+            for i in response:
+                file.write(i)
+    except:
+        os.mkdir(os.getcwd() + "/images/")
+        with open(f"{os.getcwd()}/images/{name_file}.jpg", "wb") as file:
+            for i in response:
+                file.write(i)
 
 
-if __name__ == '__main__':
+def main():
     while True:
         random_name = create_name_page()
         save_image(parse_html_page(get_html(random_name)), random_name)
+
+
+for i in range(4):
+    thread = Thread(target=main(), args=(i,))
+    thread.start()
