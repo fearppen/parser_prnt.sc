@@ -35,5 +35,5 @@ def save_image(url, name_file):
 
 if __name__ == '__main__':
     while True:
-        name = create_name_page()
-        save_image(parse_html_page(get_html(name)), name)
+        random_name = create_name_page()
+        save_image(parse_html_page(get_html(random_name)), random_name)
